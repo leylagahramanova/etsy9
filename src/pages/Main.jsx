@@ -72,14 +72,14 @@ const Main = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const favorites = JSON.parse(localStorage.getItem("wishlist")) || [];
     const all = [...cart, ...favorites];
-    const unique = [];
-    const seenIds = [];
-    for (const item of all) {
-      if (!seenIds.includes(item.id)) {
-        unique.push(item);
-        seenIds.add(item.id);
-      }
-    }
+const unique = [];
+const seenIds = new Set();
+for (const item of all) {
+  if (!seenIds.has(item.id)) {
+    unique.push(item);
+    seenIds.add(item.id);
+  }
+}
     setFavCartItems(unique);
   }, []);
   //Horizontal scroll funksiyası
