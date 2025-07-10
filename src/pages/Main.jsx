@@ -189,7 +189,7 @@ for (const item of all) {
       {cart.length > 0 && similarItems.length > 0 && (
         <section className="max-w-screen-xl py-4 px-4 sm:px-6 lg:px-8 mx-auto lg:py-8 ">
           <h2 className="text-3xl font-semibold mb-4">Picks inspired by your shopping</h2>
-          <div className="flex gap-4 pb-2">
+          <div className="flex flex-wrap gap-4 pb-2">
             {similarItems.map((item) => (
               <div
                 key={item.id}
