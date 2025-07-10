@@ -57,6 +57,7 @@ function App() {
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <ScrollToTop />
       <div className="App">
         <Navbar 
           isLoggedIn={isLoggedIn} 
