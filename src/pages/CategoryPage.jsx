@@ -1,0 +1,118 @@
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+import Heart from '../components/Heart';
+import { Plus } from 'lucide-react';
+import { RiArrowRightSLine } from 'react-icons/ri';
+
+const CategoryPage = () => {
+  const { category, subcategory } = useParams();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const decodedCategory = decodeURIComponent(category);
+    const decodedSubcategory = decodeURIComponent(subcategory);
+
+    axios.get("https://ecommerce.ibradev.me/products/all")
+      .then((response) => {
+        const allProducts = response.data.data;
+        const filtered = allProducts.filter(
+          (item) =>
+            item.category?.slug === decodedCategory &&
+            item.subcategory?.slug === decodedSubcategory
+        );
+        setProducts(filtered);
+      });
+  }, [category, subcategory]);
+
+  const handleAddToCart = (product) => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItemIndex = cart.findIndex(item => item.id === product.id);
+
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += 1;
+    } else {
+      cart.push({ ...product, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('storage'));
+    console.log('Item added to cart!', product);
+  };
+
+  return (
+    <div className="max-w-screen-xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-serif mb-6 text-center capitalize">
+        {decodeURIComponent(category)} {decodeURIComponent(subcategory)}
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="flex-shrink-0 bg-white rounded-lg overflow-hidden  w-60 lg:w-full shadow hover:shadow-md transition duration-200 cursor-pointer"
+            onClick={() => navigate(`/product/${product.id}`)}
+          >
+            <div className="group relative w-full h-41 overflow-hidden">
+              <img
+                src={product.images?.[0]}
+                alt={product.name || "Product"}
+                className="w-full h-full object-cover" loading="eager"
+              />
+              <span
+                className="absolute top-2 right-2 hidden group-hover:flex fade-slide-up items-center justify-center w-8 h-8 rounded-full bg-white cursor-pointer"
+              >
+                <Heart product={product} />
+              </span>
+            </div>
+
+       <div className="p-3 flex flex-col">
+    {/* Product Title */}
+    <p className="text-sm text-gray-800 font-semibold truncate mb-1">
+      {product.name || product.title || 'Product Name'}
+    </p>
+
+    {/* Rating, Reviews, Star Seller */}
+    <div className="flex items-center mb-1">
+      <span className="text-lg  mr-1">★</span>
+      <span className="font-bold text-gray-800 text-sm mr-1">
+        {(product.rating || 4.9).toFixed(1)}
+      </span>
+      <span className="text-xs text-gray-600 mr-2">
+        ({product.reviewsCount || 18867})
+      </span>
+      {product.isStarSeller && (
+        <span className="flex items-center text-xs font-semibold text-purple-700 bg-purple-100 px-2 py-0.5 rounded ml-1">
+          <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.561-.955L10 0l2.951 5.955 6.561.955-4.756 4.635 1.122 6.545z"/></svg>
+          Star Seller
+        </span>
+      )}
+    </div>
+
+    {/* Price, Old Price, Discount */}
+    <div className="flex items-baseline mb-1">
+      <span className="text-lg font-bold text-gray-900 mr-2">
+        USD {product.price?.toFixed(2)}
+      </span>
+        <span className="text-sm text-gray-500 line-through mr-1">
+          USD 444
+        </span>
+      {product.discount && (
+        <span className="text-xs font-bold text-green-700">
+          ({product.discount}% off)
+        </span>
+      )}
+    </div>
+
+    {/* Ad by Seller */}
+    <p className="text-xs text-gray-500 mb-1">
+      Ad by RiverrryStudio
+    </p>
+  </div>
+</div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default CategoryPage;
