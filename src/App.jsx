@@ -10,6 +10,7 @@ import ProductDetail from "./components/ProductDetail";
 import Cart from "./pages/Cart";
 import Login from './components/Login';
 import SearchPage from './pages/SearchPage';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
