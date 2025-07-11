@@ -70,10 +70,11 @@ function App() {
             <Route path="*" element={<Main />} />
           </Routes>
         </main>
+             <ScrollButton />
         <Footer />
         {showLoginModal && <Login onClose={handleLoginClose} />}
       </div>
-      <ScrollButton />
+ 
 		</Fragment>
     </BrowserRouter>
   );
