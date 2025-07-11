@@ -162,7 +162,7 @@ const handleAddToCart = (product) => {
                                     </>
                                   )}
                                 </div>
-                                <div className="flex items-center justify-between mt-3">
+                                <div className="flex flex-wrap items-center justify-between mt-3">
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();

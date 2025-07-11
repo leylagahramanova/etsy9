@@ -12,7 +12,8 @@ import Login from './components/Login';
 import SearchPage from './pages/SearchPage';
 import ScrollToTop from './components/ScrollToTop';
 import Gifts from './pages/Gifts';
-
+import { Fragment } from "react";
+import ScrollButton from './components/ScrollButton';
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <Fragment>
       <ScrollToTop />
       <div className="App flex flex-col min-h-screen">
         <Navbar 
@@ -71,6 +73,8 @@ function App() {
         <Footer />
         {showLoginModal && <Login onClose={handleLoginClose} />}
       </div>
+      <ScrollButton />
+		</Fragment>
     </BrowserRouter>
   );
 }
