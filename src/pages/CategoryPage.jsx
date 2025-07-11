@@ -26,20 +26,6 @@ useEffect(() => {
       setProducts(filtered);
     });
 }, [category, subcategory]);
-  const handleAddToCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingItemIndex = cart.findIndex(item => item.id === product.id);
-
-    if (existingItemIndex > -1) {
-      cart[existingItemIndex].quantity += 1;
-    } else {
-      cart.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    window.dispatchEvent(new Event('storage'));
-    console.log('Item added to cart!', product);
-  };
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-8">

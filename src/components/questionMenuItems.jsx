@@ -60,7 +60,7 @@ const QuestionMenuItem = () => {
     return (
         <>
             <Dropdown menu={{ items: questionMenuItems }} trigger={['click']} arrow style={{ padding: '0' }}>
-                <div className='flex py-1 px-2 rounded-full hover:bg-blue-100 group cursor-pointer group-hover:text-blue-700'>
+                <div className='flex py-1 pr-1 rounded-full hover:bg-blue-100 group cursor-pointer group-hover:text-blue-700'>
                  <Tooltip title="Help & Support" placement="bottom">
   <span className="flex items-center">
     <GoQuestion size={24} className="text-gray-700 cursor-pointer" />

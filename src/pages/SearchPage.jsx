@@ -10,6 +10,8 @@ const SearchPage = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [filter, setFilter] = useState("priceLowHigh");
+    const [selectedSubcategory, setSelectedSubcategory] = useState("all");
     const location = useLocation();
     const searchQuery = new URLSearchParams(location.search).get('q');
     const navigate = useNavigate();
@@ -51,25 +53,43 @@ const SearchPage = () => {
         fetchSearchResults();
     }, [searchQuery]);
 
+    // Extract unique subcategories from searchResults
+    const subcategories = Array.from(
+  new Set(
+    searchResults.map(p => p.subcategory?.slug)
+  )
+);
 
+    // Filtering logic
+    let filteredResults = [...searchResults];
+    if (selectedSubcategory !== "all") {
+      filteredResults = filteredResults.filter(
+        p => p.subcategory?.slug === selectedSubcategory
+      );
+    }
+    if (filter === "priceLowHigh") {
+      filteredResults.sort((a, b) => (a.price || 0) - (b.price || 0));
+    } else if (filter === "priceHighLow") {
+      filteredResults.sort((a, b) => (b.price || 0) - (a.price || 0));
+    }
+const handleAddToCart = (product) => {
+    if (!product) {
+        return;
+    }
 
-    const handleAddToCart = (product) => {
-        const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
-        const existingItemIndex = currentCart.findIndex(item => item.id === product.id);
+    const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const isItemInCart = currentCart.some(item => item.id === product.id);
 
-        if (existingItemIndex > -1) {
-            // If item exists, update quantity
-            const updatedCart = currentCart.map((item, index) =>
-                index === existingItemIndex ? { ...item, quantity: item.quantity + 1 } : item
-            );
-            localStorage.setItem("cart", JSON.stringify(updatedCart));
-        } else {
-            // If item doesn't exist, add it with quantity 1
-            localStorage.setItem("cart", JSON.stringify([...currentCart, { ...product, quantity: 1 }]));
-        }
-        alert(`${product.name} added to cart!`);
-    };
+    if (!isItemInCart) {
+        currentCart.push(product);
+        localStorage.setItem('cart', JSON.stringify(currentCart));
+        console.log('Product added to cart:', product);
+    } else {
+        console.log('Product already in cart:', product);
+    }
 
+    navigate('/cart');
+};
     if (loading) {
         return <div className="text-center py-8">Loading search results...</div>;
     }
@@ -81,19 +101,43 @@ const SearchPage = () => {
     return (
         <div className="max-w-screen-xl mx-auto px-4 py-8">
             <h1 className="text-2xl font-bold mb-6">Search Results for "{searchQuery}"</h1>
-            {searchResults.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {searchResults.map(product => (
+            {/* Filter  */}
+            <div className="mb-6 flex flex-wrap gap-4 items-center">
+              <label className="font-semibold">Filter by:</label>
+              <select
+                value={filter}
+                onChange={e => setFilter(e.target.value)}
+                className="border rounded px-2 py-1"
+              >
+                <option value="priceLowHigh">Price: Low to High</option>
+                <option value="priceHighLow">Price: High to Low</option>
+              </select>
+
+              <label className="font-semibold ml-4">Subcategory:</label>
+              <select
+                value={selectedSubcategory}
+                onChange={e => setSelectedSubcategory(e.target.value)}
+                className="border rounded px-2 py-1"
+              >
+                <option value="all">All</option>
+                {subcategories.map(subcat => (
+                  <option key={subcat} value={subcat}>{subcat}</option>
+                ))}
+              </select>
+            </div>
+            {filteredResults.length > 0 ? (
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
+                    {filteredResults.map(product => (
                         <div
                             key={product.id}
-                            className="flex-shrink-0 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition duration-200 cursor-pointer"
+                           className="flex-shrink-0 bg-white rounded-lg overflow-hidden  w-60 lg:w-full shadow hover:shadow-md transition duration-200 cursor-pointer"
                             onClick={() => navigate(`/product/${product.id}`)}
                         >
                             <div className="group relative w-full h-49 overflow-hidden">
                                 <img
+                    className="object-cover rounded-3xl sm:w-[60rem] w-[20rem] lg:h-[20rem] h-[15rem] " loading="eager"
                                     src={product.images?.[0]}
-                                    alt={product.name || "Product"}
-                                    className="w-full h-full object-cover" loading="eager"
+                                    alt={product.name || "Product"} 
                                 />
                                  <span>
                     <Heart product={product} />
@@ -102,31 +146,22 @@ const SearchPage = () => {
                             <div className="p-3 flex flex-col">
                                 <div className="flex justify-between items-start mb-1">
                                     <p className="text-sm text-gray-800 font-semibold truncate pr-2 flex-grow">{product.name || product.title || 'Product Name'}</p>
-                          
-                                 
                                         <div className="flex items-center text-xs text-gray-600 flex-shrink-0">
                                             <span className="font-bold mr-0.5">4.9</span>
                                             <span >★</span>
                                             <span className="ml-0.5">(10)</span>
                                  </div>
                                 </div>
-
                                 <p className="text-xs text-gray-600 mb-1">Ad by Etsy seller</p>
-
-                               
                                 <div className="flex items-baseline mb-1">
-                                    {product.discount (
-                                        <>
-                                            <p className="text-base text-green-700 font-bold mr-2">USD {product.price?.toFixed(2) || '0.00'}</p>
-                                            <p className="text-sm text-gray-500 line-through mr-1">USD 444.00</p>
-                                            <span className="text-xs font-bold text-green-700">({product.discount}% off)</span>
-                                        </>
-                                    ) }
+                                  <p className="text-base text-gray-800 font-bold mr-2">USD {product.price?.toFixed(2) || '0.00'}</p>
+                                  {product.discount && (
+                                    <>
+                                      <p className="text-sm text-gray-500 line-through mr-1">USD 444.00</p>
+                                      <span className="text-xs font-bold text-green-700">({product.discount}% off)</span>
+                                    </>
+                                  )}
                                 </div>
-
-                          
-
-                              
                                 <div className="flex items-center justify-between mt-3">
                                     <button
                                         onClick={(e) => {

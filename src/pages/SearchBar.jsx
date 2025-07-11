@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { MdClose } from "react-icons/md";
+
 // Kategoriya slug-larını oxunaqlı formata çevirən köməkçi funksiya
 const formatCategoryDisplayName = (slug) => {
     if (!slug) return '';
-
     const parts = slug.split('/');
     let formattedParts = parts.map(part => {
         return part.split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     });
-
     return formattedParts.join(' / ');
 };
 
@@ -21,12 +20,11 @@ const SearchBar = () => {
     const [searchVal, setSearchVal] = useState("");
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
-    const [products, setProducts] = useState([]); // Products for search suggestions
-    const [categories, setCategories] = useState([]); // Categories for search suggestions
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     const navigate = useNavigate();
 
-    // Komponent yükləndikdə məhsullar və kateqoriyalar serverdən alınır
     useEffect(() => {
         axios.get("https://ecommerce.ibradev.me/products/all")
             .then((res) => {
@@ -34,53 +32,56 @@ const SearchBar = () => {
                 setProducts(data);
                 const uniqCategories = Array.from(
                     new Map(
-                        data.filter(product => product.category?.slug)
+                        data
+                            .filter(product => product.category?.slug)
                             .map(product => [product.category.slug, {
                                 name: formatCategoryDisplayName(product.category.slug),
                                 slug: product.category.slug
                             }])
-                            ).values()
-                    )
-                   setCategories(uniqCategories);
+                    ).values()
+                );
+                setCategories(uniqCategories);
             })
             .catch(err => {
                 console.error("Failed to fetch products/categories:", err);
             });
     }, []);
-    // Inputa fokus olduqda təkliflər açılır
+
     const handleSearchInputChange = (e) => {
         const value = e.target.value;
         setSearchVal(value);
-        if(!value){
+
+        if (!value) {
             setSearchResults([]);
             return;
         }
-   const searchLower = value.toLowerCase();
-   const categoryMatches=categories.filter(category=>category.name.includes(searchLower))
-   .map(cat=>({label:cat.name, type:'category', value:category.slug}));
 
-   const productMatches = products
-        .filter(product => product.name.toLowerCase().includes(searchLower))
-        .map(product => ({ label: product.name, type: 'product', value: product.id }));
+        const searchLower = value.toLowerCase();
 
-    setSearchResults([...categoryMatches, ...productMatches]);
-    setShowSuggestions(true);
+        const categoryMatches = categories
+            .filter(category => category.name.toLowerCase().includes(searchLower))
+            .map(cat => ({ label: cat.name, type: 'category', value: cat.slug }));
+
+        const productMatches = products
+            .filter(product => product.name.toLowerCase().includes(searchLower))
+            .map(product => ({ label: product.name, type: 'product', value: product.id }));
+
+        setSearchResults([...categoryMatches, ...productMatches]);
+        setShowSuggestions(true);
     };
 
-    // Inputa fokus olduqda təkliflər açılır
     const handleSearchInputFocus = () => {
         setIsSearchActive(true);
         setShowSuggestions(true);
     };
-    // Inputdan çıxıldıqda təkliflər bağlanır (kiçik gecikmə ilə)
+
     const handleSearchInputBlur = () => {
-        // Use a timeout to allow click events on suggestions before closing the dropdown
         setTimeout(() => {
             setIsSearchActive(false);
             setShowSuggestions(false);
-        }, 100); // Small delay
+        }, 100);
     };
-    // X inputunu təmizləyir
+
     const handleClearSearch = () => {
         setSearchVal("");
         setSearchResults([]);
@@ -88,8 +89,7 @@ const SearchBar = () => {
     };
 
     const handleSuggestionClick = (value, type, label) => {
-         setSearchVal(label);
- 
+        setSearchVal(label);
         setShowSuggestions(false);
         setIsSearchActive(false);
 
@@ -101,15 +101,15 @@ const SearchBar = () => {
             navigate(`/search?q=${encodeURIComponent(value)}`);
         }
     };
+
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        if (searchVal !== "") {
+        if (searchVal) {
             navigate(`/search?q=${encodeURIComponent(searchVal)}`);
         }
         setShowSuggestions(false);
         setIsSearchActive(false);
     };
-
 
     return (
         <form onSubmit={handleSearchSubmit} className="flex justify-between flex-1 max-w-4xl border-black border-4 rounded-full relative z-30">
@@ -128,7 +128,7 @@ const SearchBar = () => {
                     onClick={handleClearSearch}
                     className="absolute right-12 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 pr-1"
                 >
-                <MdClose/>
+                    <MdClose />
                 </button>
             )}
             <button
@@ -145,15 +145,15 @@ const SearchBar = () => {
 
             {showSuggestions && (
                 <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 z-10 max-h-80 overflow-y-auto">
-                    {searchVal.length > 0 ? (
+                    {searchVal && searchVal.length > 0 ? (
                         searchResults.length > 0 ? (
                             <ul>
                                 {searchResults.map((result, idx) => (
                                     <li
                                         key={idx}
                                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-800"
-                                        onMouseDown={(e) => e.preventDefault()} // Prevent blur from closing before click
-                                        onClick={() => handleSuggestionClick(result.value, result.type)}
+                                        onMouseDown={(e) => e.preventDefault()}
+                                        onClick={() => handleSuggestionClick(result.value, result.type, result.label)}
                                     >
                                         {result.label}
                                     </li>
@@ -171,9 +171,9 @@ const SearchBar = () => {
                                         key={idx}
                                         className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                         onMouseDown={(e) => e.preventDefault()}
-                                        onClick={() => handleSuggestionClick(item.name, 'text')}
+                                        onClick={() => handleSuggestionClick(item.name, 'text', item.name)}
                                     >
-                                        {item.images?.[0] && <img src={item.images?.[0]} alt={item.name} className="w-8 h-8 rounded-md mr-2 object-cover" />}
+                                        {item.images?.[0] && <img src={item.images[0]} alt={item.name} className="w-8 h-8 rounded-md mr-2 object-cover" />}
                                         <span className="text-gray-800">{item.name}</span>
                                     </li>
                                 ))}
@@ -186,4 +186,4 @@ const SearchBar = () => {
     );
 };
 
-export default SearchBar; 
+export default SearchBar;

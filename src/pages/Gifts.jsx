@@ -47,8 +47,6 @@ const Gifts = () => {
         <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
           Discover perfect picks for the occasion!
         </h2>
-
-        {/* Category Row */}
         <div className="flex flex-wrap justify-center gap-6 mb-8">
           {categories.map((cat) => (
             <div
@@ -76,7 +74,6 @@ const Gifts = () => {
           ))}
         </div>
 
-        {/* Masonry Product Grid */}
         <div className=" columns-2 md:columns-4 gap-4 space-y-4">
           {staticProducts.map((product, idx) => (
             <div

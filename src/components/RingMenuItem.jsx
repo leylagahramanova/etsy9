@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Dropdown } from 'antd';
 import { RiArrowDownSFill } from "react-icons/ri";
 
@@ -29,7 +28,7 @@ const RingMenuItem = () => {
     ];
     return (
         <>
-            <Dropdown trigger={['click']} arrow style={{ padding: '0' }}>
+            <Dropdown trigger={['click']} arrow style={{ padding: '0' }} menu={{ items:RingMenuItems }}>
 
                 <div className='flex py-1 pr-1 rounded-full hover:bg-blue-100 group cursor-pointer group-hover:text-blue-700'>
                     <Tooltip title="Deals" placement="bottom" className='flex'>

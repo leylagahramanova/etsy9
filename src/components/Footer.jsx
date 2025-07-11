@@ -110,44 +110,42 @@ const Footer = () => {
                                 {renderLinks(footerLinks.help)}
                         
                                 {/* Desktop Layout Icons */}
-                                <div className="hidden md:flex space-x-4 text-xl mt-4"> {/* Desktop icons */}
+                                <div className="hidden md:flex space-x-4 text-xl mt-4"> 
                                     <a href="#" aria-label="Instagram" className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaInstagram className="text-white w-4 h-4" /> {/* Icon color is white */}
+                                        <FaInstagram className="text-white w-4 h-4" /> 
                                     </a>
                                     <a href="#" aria-label="Facebook" className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaFacebookF className="text-white w-4 h-4" /> {/* Icon color is white */}
+                                        <FaFacebookF className="text-white w-4 h-4" /> 
                                     </a>
                                     <a href="#" aria-label="Pinterest" className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaPinterestP className="text-white w-4 h-4" /> {/* Icon color is white */}
+                                        <FaPinterestP className="text-white w-4 h-4" /> 
                                     </a>
                                     <a href="#" aria-label="Youtube" className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-700 transition duration-200" >
-                                        <FaYoutube className="text-white w-4 h-4" /> {/* Icon color is white */}
+                                        <FaYoutube className="text-white w-4 h-4" /> 
                                     </a>
                                 </div>
 
                                 {/* Mobile Layout Icons */}
-                                <div className="flex md:hidden justify-center space-x-6 text-2xl mt-8 text-gray-300"> {/* Mobile icons, ensure they are hidden on desktop */}
+                                <div className="flex md:hidden justify-center space-x-6 text-2xl mt-8 text-gray-300"> 
                                     <a href="#" aria-label="Instagram" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaInstagram className="text-white" /> {/* Icon color is white */}
+                                        <FaInstagram className="text-white" /> 
                                     </a>
                                     <a href="#" aria-label="Facebook" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaFacebookF className="text-white" /> {/* Icon color is white */}
+                                        <FaFacebookF className="text-white" /> 
                                     </a>
                                     <a href="#" aria-label="Pinterest" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaPinterestP className="text-white" /> {/* Icon color is white */}
+                                        <FaPinterestP className="text-white" /> 
                                     </a>
                                     <a href="#" aria-label="Youtube" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-700 transition duration-200">
-                                        <FaYoutube className="text-white" /> {/* Icon color is white */}
+                                        <FaYoutube className="text-white" />
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Mobile Layout - Collapsible Sections */}
-                    {/* Hidden on medium screens and up, shown on mobile */}
+                    {/* Mobile Layout  */}
                     <div className="md:hidden ">
-                        {/* Etsy Logo and App Button - Mobile */}
 
 
                         {/* Collapsible Sections */}
@@ -198,20 +196,12 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Bottom Bar - Legal, Language, Copyright */}
             <div className="bg-gray-800 text-white text-sm py-6 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center">
-                    {/* Language, Currency, Country */}
                     <div className="flex items-center mb-4 md:mb-0">
                         <FaGlobe className="mr-2" />
                         <span>Azerbaijan | English (US) | $ (USD)</span>
                     </div>
-
-                    {/* Copyright */}
-                
-
-                    {/* Legal Links */}
                     <div className="flex flex-wrap justify-center md:justify-start space-x-4">
                           <span>© {new Date().getFullYear()} Etsy, Inc.</span>
                         <a href="#" className="underline">Terms of Use</a>

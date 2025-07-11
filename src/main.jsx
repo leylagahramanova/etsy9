@@ -7,7 +7,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 // Google OAuth Client ID
 
 // .env de saxlamaq lazimdir
-const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "904970452532-9crhq195hbo8ei1u39ae0f1jfk0kt83p.apps.googleusercontent.com";
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID ;
 
 // Error boundary for Google OAuth
 class GoogleOAuthErrorBoundary extends React.Component {

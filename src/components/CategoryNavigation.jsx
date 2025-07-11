@@ -99,11 +99,11 @@ const CategoryNavigation = () => {
             setCurrentDrawerCategories(lastHistoryItem.categories);
             setDrawerTitle(lastHistoryItem.title);
         } else {
-            // Should not happen if history is managed correctly, but as a fallback
+          
             setCurrentDrawerCategories(categories);
             setDrawerTitle("Browse Categories");
         }
-        setDrawerHistory([...drawerHistory]); // Ensure state update triggers re-render
+        setDrawerHistory([...drawerHistory]); 
     };
 
     const handleCategorySelect = ({ key }) => {

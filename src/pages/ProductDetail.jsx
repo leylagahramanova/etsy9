@@ -96,7 +96,6 @@ const ProductDetail = () => {
         if (!isItemInCart) {
             currentCart.push(productDetailItem);
             localStorage.setItem('cart', JSON.stringify(currentCart));
-            console.log('Product added to cart:', productDetailItem);
         } else {
             console.log('Product already in cart:', productDetailItem);
         }

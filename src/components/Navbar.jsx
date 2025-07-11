@@ -94,25 +94,20 @@ const Navbar = ({ onSignOut }) => {
         <div className="border-b-2 border-b-gray-200">
             <div className="max-w-screen-xl mx-auto px-2 py-2 space-y-3 lg:space-y-0">
                 <div className="flex flex-wrap items-center justify-between">
-                    {/* Logo */}
                     <div className="text-orange-600 font-serif text-4xl">
                         <Link to="/">Etsy</Link>
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-between lg:items-center gap-4 px-4">
-                        {/* Categories Dropdown Button (Desktop) */}
                         <CategoryNavigation />
-
-                        {/* Search Bar (Desktop) */}
                         <SearchBar />
                     </div>
 
-                    {/* Sign In and Icons (Desktop/Tablet) */}
                     <div className="flex items-center space-x-4 flex-wrap">
                         {isLoggedIn ? (
                             <>
-            <RingMenuItem/>
-                                <QuestionMenuItem   />
-                                <UserMenuItem user={user} onSignOut={handleLogout}  />
+                                <RingMenuItem />
+                                <QuestionMenuItem />
+                                <UserMenuItem user={user} onSignOut={handleLogout} />
 
 
                             </>
@@ -126,15 +121,15 @@ const Navbar = ({ onSignOut }) => {
                                 <AiOutlineHeart className="w-6 h-6 text-gray-700 group-hover:text-blue-700" />
                             </Link>
                         </Tooltip>
-                      
-                         <Tooltip title="Gifts" placement="bottom">
+
+                        <Tooltip title="Gifts" placement="bottom">
                             <span>
                                 <Link
                                     to="/gifts"
                                     className="relative flex items-center justify-center w-8 h-8 rounded-full transition duration-200 hover:bg-blue-100 group cursor-pointer"
                                 >
-                                        <AiOutlineGift className="w-6 h-6 text-gray-700 group-hover:text-blue-700" />
-                                 </Link>
+                                    <AiOutlineGift className="w-6 h-6 text-gray-700 group-hover:text-blue-700" />
+                                </Link>
                             </span>
                         </Tooltip>
                         <Tooltip title="Cart" placement="bottom">
@@ -157,13 +152,21 @@ const Navbar = ({ onSignOut }) => {
                 </div>
                 <div className="hidden lg:flex items-center justify-center max-w-screen-xl mx-auto px-4 py-1 space-x-8 text-base">
                     <span className="flex items-center cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
-                        
+
                         <GiftOutlined className="w-4 h-4 mr-1" /> Gifts
                     </span>
-                    <span className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">The Personalization Shop</span>
-                    <span className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">Home Favorites</span>
-                    <span className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">Fashion Finds</span>
-                    <span className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">Registry</span>
+                    <Link to="/gifts" className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
+                        The Personalization Shop
+                    </Link>
+                    <Link to="/gifts" className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
+                        Home Favorites
+                    </Link>
+                    <Link to="/gifts" className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
+                        Fashion Finds
+                    </Link>
+                    <Link to="/gifts" className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
+                        Registry
+                    </Link>
                 </div>
             </div>
             {showLoginModal && (
