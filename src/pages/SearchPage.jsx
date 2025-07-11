@@ -89,23 +89,17 @@ const SearchPage = () => {
                             className="flex-shrink-0 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition duration-200 cursor-pointer"
                             onClick={() => navigate(`/product/${product.id}`)}
                         >
-                            {/* Image */}
                             <div className="group relative w-full h-49 overflow-hidden">
                                 <img
                                     src={product.images?.[0]}
                                     alt={product.name || "Product"}
                                     className="w-full h-full object-cover" loading="eager"
                                 />
-                                 <span
-                    className="absolute top-2 right-2 hidden group-hover:flex fade-slide-up items-center justify-center w-8 h-8 rounded-full bg-white cursor-pointer"
-                  >
+                                 <span>
                     <Heart product={product} />
                   </span>
                             </div>
-
-                            {/* Text Details */}
                             <div className="p-3 flex flex-col">
-                                {/* Product Name and Rating */}
                                 <div className="flex justify-between items-start mb-1">
                                     <p className="text-sm text-gray-800 font-semibold truncate pr-2 flex-grow">{product.name || product.title || 'Product Name'}</p>
                           
@@ -119,25 +113,20 @@ const SearchPage = () => {
 
                                 <p className="text-xs text-gray-600 mb-1">Ad by Etsy seller</p>
 
-                                {/* Price and Discount */}
+                               
                                 <div className="flex items-baseline mb-1">
-                                    {product.discount && product.originalPrice ? (
+                                    {product.discount (
                                         <>
                                             <p className="text-base text-green-700 font-bold mr-2">USD {product.price?.toFixed(2) || '0.00'}</p>
-                                            <p className="text-sm text-gray-500 line-through mr-1">USD {product.originalPrice?.toFixed(2)}</p>
+                                            <p className="text-sm text-gray-500 line-through mr-1">USD 444.00</p>
                                             <span className="text-xs font-bold text-green-700">({product.discount}% off)</span>
                                         </>
-                                    ) : (
-                                        <p className="text-base text-gray-800 font-bold">USD {product.price?.toFixed(2) || '0.00'}</p>
-                                    )}
+                                    ) }
                                 </div>
 
-                                {/* Free Shipping */}
-                                {product.isFreeShipping && (
-                                    <p className="text-xs text-gray-600 mb-2">Free shipping</p>
-                                )}
+                          
 
-                                {/* Add to Cart Button and More like this */}
+                              
                                 <div className="flex items-center justify-between mt-3">
                                     <button
                                         onClick={(e) => {

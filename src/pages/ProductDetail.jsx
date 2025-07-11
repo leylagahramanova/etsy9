@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-import { AiOutlineHeart } from "react-icons/ai";
-import { BiShoppingBag } from "react-icons/bi";
 import { ChevronDown, ChevronUp, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { IoIosArrowBack } from "react-icons/io";
-import Timer from "./Timer";
-import Heart from "./Heart";
+import Timer from "../components/Timer";
+import Heart from "../components/Heart";
 const ProductDetail = () => {
     const { productId } = useParams();   // URL-dən məhsulun id-sini alır
     const [productDetailItem, setProductDetailItem] = useState(null);  // Məhsulun detallarını saxlamaq üçün state
+   const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [openSections, setOpenSections] = useState({
         details: true,
@@ -22,30 +20,34 @@ const ProductDetail = () => {
     });  // Açıq/bağlı olan bölmələrin vəziyyətini saxlamaq üçün state
     const [similarProducts, setSimilarProducts] = useState([]);
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await fetch(`https://ecommerce.ibradev.me/products/get/${productId}`);
-                if (!response.ok) {
-                    console.error(`Product with ID ${productId} not found or API error: ${response.status}`);
-                    setProductDetailItem(null);
-                    return;
-                }
+   useEffect(() => {
+    const fetchProduct = async () => {
+        setLoading(true);  // start loading
+        try {
+            const response = await fetch(`https://ecommerce.ibradev.me/products/get/${productId}`);
+            if (!response.ok) {
+                console.error(`Product with ID ${productId} not found or API error: ${response.status}`);
+                setProductDetailItem(null);
+            } else {
                 const data = await response.json();
                 setProductDetailItem(data);
-            } catch (err) {
-                console.error("Error fetching product:", err);
-                setProductDetailItem(null);
             }
-        };
-
-        if (productId) {
-            fetchProduct();
-        } else {
+        } catch (err) {
+            console.error("Error fetching product:", err);
             setProductDetailItem(null);
+        } finally {
+            setLoading(false);  // done loading
         }
+    };
 
-    }, [productId]);
+    if (productId) {
+        fetchProduct();
+    } else {
+        setProductDetailItem(null);
+        setLoading(false);
+    }
+}, [productId]);
+
 
     useEffect(() => {
         const fetchSimilarProducts = async () => {
@@ -103,9 +105,13 @@ const ProductDetail = () => {
     };
 
 
-    if (!productDetailItem) {
-        return <div className="text-center py-10 text-gray-600">Product information not available.</div>;
-    }
+   if (loading) {
+    return <div className="text-center py-10 text-gray-600">Loading product details...</div>;
+}
+
+if (!loading && !productDetailItem) {
+    return <div className="text-center py-10 text-gray-600">Product information not available.</div>;
+}
 
     const inCarts = 16;
 
@@ -161,14 +167,12 @@ const ProductDetail = () => {
 
                     <span
 
-                        className="absolute top-2 right-2 flex items-center justify-center w-10 h-10 shadow-xl rounded-full bg-white cursor-pointer z-10"
                     >
                         <Heart product={productDetailItem} />
                     </span>
                 </div>
                 <div className="text-center mt-4 text-sm">
                     <a href="#" className="text-gray-500 hover:underline">
-                        Report this item to Etsy
                     </a>
                 </div>
             </div>
@@ -319,7 +323,7 @@ const ProductDetail = () => {
                         <h2 className="text-2xl font-semibold">You may also like <span className="text-base text-gray-400 font-normal">Including ads</span></h2>
                         <button
                             className="border border-gray-400 rounded-full px-4 py-1 text-gray-700 hover:bg-gray-100 transition"
-                            onClick={() => navigate('/search?q=' + encodeURIComponent(productDetailItem.category?.name || ''))}
+                    
                         >
                             See more
                         </button>
@@ -328,21 +332,27 @@ const ProductDetail = () => {
                         {similarProducts.map((item) => (
                             <div
                                 key={item.id}
-                                className="min-w-[220px] max-w-[240px] bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition duration-200 cursor-pointer flex-shrink-0"
+                                className="w-[220px] border  bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition duration-200 cursor-pointer flex-shrink-0"
                                 onClick={() => navigate(`/product/${item.id}`)}
                             >
+                                         <div className="group relative w-50 h-48 overflow-hidden">
                                 <img
                                     src={item.images?.[0]}
                                     alt={item.name}
                                     className="w-full h-40 object-cover"
                                 />
+                                     <span
+                                                       >
+                                                        <Heart product={item} className="w-4 h-4 text-black" />
+                                                      </span>
+                                </div>
                                 <div className="p-2">
                                     <p className="text-sm  truncate mb-1">{item.name}</p>
                                     <p className="text-xs text-gray-500 truncate mb-1"> Etsy Seller</p>
                                     <div className="flex flex-col items-baseline mb-1">
                                         <span className="text-green-700 font-bold text-base mr-2">USD {item.price?.toFixed(2)}</span>
                                      
-                                     <div className="">
+                                     <div >
                                             <span className="text-xs text-gray-500 line-through mr-1">USD 444.00</span>
                                     
                                         {item.discount && (

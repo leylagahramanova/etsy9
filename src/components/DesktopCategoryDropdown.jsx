@@ -32,13 +32,14 @@ const DesktopCategoryDropdown = ({ categories, onCategorySelect }) => {
             <div className="flex-1 p-4 overflow-y-auto">
                 {selectedMainCategory ? (
                     <>
-                        <Link
-                            to={`/category/${selectedMainCategory.slug}`}
-                            onClick={() => onCategorySelect({ key: selectedMainCategory.slug })}
-                            className="text-lg font-bold text-black mb-4 flex items-center hover:underline"
-                        >
-                            All {selectedMainCategory.name} <RiArrowRightSFill className="ml-2" />
-                        </Link>
+{selectedMainCategory && (
+  <Link
+    to={`/category/${selectedMainCategory.slug}`}
+    className="text-lg font-bold text-black mb-4 flex items-center hover:underline"
+  >
+    All {selectedMainCategory.name} <RiArrowRightSFill className="ml-2" />
+  </Link>
+)}
                         <div className="flex justify-start gap-2 mt-4">
                             {selectedMainCategory.subcategories.map((subCat) => (
                                 <div

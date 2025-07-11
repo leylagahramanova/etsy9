@@ -61,7 +61,7 @@ const Footer = () => {
         <p className="mb-4 text-center">
           <b> Yes! Send me exclusive offers, unique gift ideas, and personalized tips for shopping and selling on Etsy.</b>
         </p>
-        <form className="flex justify-between max-w-md w-full mx-auto rounded-full border bg-white border-gray-300 overflow-hidden group focus-within:border-blue-500 focus-within:border-b-2  transition duration-200 "> {/* Added group and focus-within:border-blue-500 */}
+        <form className="flex justify-between max-w-md w-full mx-auto rounded-full border bg-white border-gray-300 overflow-hidden group focus-within:border-blue-500 focus-within:border-b-2  transition duration-200 "> 
           <input
             type="email"
             placeholder="Enter your email"
@@ -82,8 +82,8 @@ const Footer = () => {
             <div className="bg-blue-800 text-gray-300  ">
                 <div className="max-w-screen-xs mx-auto  ">
                     <div className="hidden md:flex px-4 sm:px-6 lg:px-8">
-                        <div className="w-1/3 bg-blue-900 flex flex-col items-center justify-center p-8"> {/* Adjust width as needed, added padding */}
-                            <div className="bg-orange-500 p-2 rounded-xl w-16 h-16 flex items-center justify-center font-serif text-2xl mb-4">Etsy</div> {/* Etsy Logo */}
+                        <div className="w-1/3 bg-blue-900 flex flex-col items-center justify-center p-8"> 
+                            <div className="bg-orange-500 p-2 rounded-xl w-16 h-16 flex items-center justify-center font-serif text-2xl mb-4">Etsy</div> 
                             <button className="bg-blue-700 text-white py-2 px-4 rounded-full text-sm hover:shadow-2xl transition duration-200">
                                 Download the Etsy App
                             </button>
@@ -94,23 +94,21 @@ const Footer = () => {
                                 {renderLinks(footerLinks.shop)}
                             </div>
 
-                            {/* Sell Column */}
+
                             <div className='py-12'>
                                 <h3 className="text-lg font-semibold text-white mb-4">Sell</h3>
                                 {renderLinks(footerLinks.sell)}
                             </div>
 
-                            {/* About Column */}
                             <div className='py-12'>
                                 <h3 className="text-lg font-semibold text-white mb-4">About</h3>
                                 {renderLinks(footerLinks.about)}
                             </div>
 
-                            {/* Help & Social Icons Column */}
                             <div className='py-12'>
                                 <h3 className="text-lg font-semibold text-white mb-4">Help</h3>
                                 {renderLinks(footerLinks.help)}
-                                {/* Social Icons */}
+                        
                                 {/* Desktop Layout Icons */}
                                 <div className="hidden md:flex space-x-4 text-xl mt-4"> {/* Desktop icons */}
                                     <a href="#" aria-label="Instagram" className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-700 transition duration-200">

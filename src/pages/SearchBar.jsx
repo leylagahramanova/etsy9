@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import { MdClose } from "react-icons/md";
 // Kategoriya slug-larını oxunaqlı formata çevirən köməkçi funksiya
 const formatCategoryDisplayName = (slug) => {
     if (!slug) return '';
@@ -30,61 +30,49 @@ const SearchBar = () => {
     useEffect(() => {
         axios.get("https://ecommerce.ibradev.me/products/all")
             .then((res) => {
-                console.log("API response (SearchBar):", res.data);
-                const fetchedProducts = res.data.data;
-
-                if (Array.isArray(fetchedProducts)) {
-                    setProducts(fetchedProducts);
-                    // Unikal kateqoriyaları seçirik
-                    const categoryMap = new Map();
-                    fetchedProducts.forEach(product => {
-                        const mainCategorySlug = product.category?.slug;
-                        if (mainCategorySlug && !categoryMap.has(mainCategorySlug)) {
-                            categoryMap.set(mainCategorySlug, {
-                                name: formatCategoryDisplayName(mainCategorySlug),
-                                slug: mainCategorySlug
-                            });
-                        }
-                    });
-                    setCategories(Array.from(categoryMap.values()));
-
-                } else {
-                    console.error("Expected an array in res.data.data, got:", fetchedProducts);
-                }
+                const data = res.data?.data || [];
+                setProducts(data);
+                const uniqCategories = Array.from(
+                    new Map(
+                        data.filter(product => product.category?.slug)
+                            .map(product => [product.category.slug, {
+                                name: formatCategoryDisplayName(product.category.slug),
+                                slug: product.category.slug
+                            }])
+                            ).values()
+                    )
+                   setCategories(uniqCategories);
             })
-            .catch((err) => {
-                console.error("Failed to fetch products/categories for search:", err);
+            .catch(err => {
+                console.error("Failed to fetch products/categories:", err);
             });
     }, []);
-  // Inputa fokus olduqda təkliflər açılır
+    // Inputa fokus olduqda təkliflər açılır
     const handleSearchInputChange = (e) => {
         const value = e.target.value;
         setSearchVal(value);
-
-        if (value.length > 0) {
-            // Filter categories based on search input
-            const filteredCategories = categories.filter(cat =>
-                formatCategoryDisplayName(cat.name).toLowerCase().includes(value.toLowerCase())
-            ).map(cat => ({ label: formatCategoryDisplayName(cat.name), type: 'category', value: cat.slug }));
-
-            // Also filter products by name for direct search suggestions
-            const filteredProducts = products.filter(product =>
-                product.name.toLowerCase().includes(value.toLowerCase())
-            ).map(product => ({ label: product.name, type: 'product', value: product.id }));
-
-            setSearchResults([...filteredCategories, ...filteredProducts]);
-        } else {
-            setSearchResults([]); // Clear results if input is empty
+        if(!value){
+            setSearchResults([]);
+            return;
         }
-        setShowSuggestions(true); // Always show suggestions when typing
+   const searchLower = value.toLowerCase();
+   const categoryMatches=categories.filter(category=>category.name.includes(searchLower))
+   .map(cat=>({label:cat.name, type:'category', value:category.slug}));
+
+   const productMatches = products
+        .filter(product => product.name.toLowerCase().includes(searchLower))
+        .map(product => ({ label: product.name, type: 'product', value: product.id }));
+
+    setSearchResults([...categoryMatches, ...productMatches]);
+    setShowSuggestions(true);
     };
 
- // Inputa fokus olduqda təkliflər açılır
+    // Inputa fokus olduqda təkliflər açılır
     const handleSearchInputFocus = () => {
         setIsSearchActive(true);
         setShowSuggestions(true);
     };
-  // Inputdan çıxıldıqda təkliflər bağlanır (kiçik gecikmə ilə)
+    // Inputdan çıxıldıqda təkliflər bağlanır (kiçik gecikmə ilə)
     const handleSearchInputBlur = () => {
         // Use a timeout to allow click events on suggestions before closing the dropdown
         setTimeout(() => {
@@ -92,20 +80,16 @@ const SearchBar = () => {
             setShowSuggestions(false);
         }, 100); // Small delay
     };
-  // X inputunu təmizləyir
+    // X inputunu təmizləyir
     const handleClearSearch = () => {
         setSearchVal("");
         setSearchResults([]);
         setShowSuggestions(false);
     };
 
-    const handleSuggestionClick = (value, type) => {
-        if (type === 'category') {
-            setSearchVal(formatCategoryDisplayName(value));
-        } else {
-            setSearchVal(value); // This will be the actual search term or product name
-        }
-
+    const handleSuggestionClick = (value, type, label) => {
+         setSearchVal(label);
+ 
         setShowSuggestions(false);
         setIsSearchActive(false);
 
@@ -142,9 +126,9 @@ const SearchBar = () => {
                 <button
                     type="button"
                     onClick={handleClearSearch}
-                    className="absolute right-12 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    className="absolute right-12 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 pr-1"
                 >
-                    &times;
+                <MdClose/>
                 </button>
             )}
             <button

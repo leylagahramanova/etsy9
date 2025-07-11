@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'antd';
-import { FaUserCircle} from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { FileTextOutlined, MessageOutlined, GiftOutlined, AppstoreAddOutlined, ShopOutlined, QuestionCircleOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import { RiArrowDownSFill } from "react-icons/ri";
 import { Tooltip } from '@mui/material';
@@ -11,8 +11,8 @@ const UserMenuItem = ({ user, onSignOut }) => {
             key: 'profile-header',
             label: (
                 <div className="flex items-center p-2 bg-blue-100">
-                     <Tooltip title="Your Account" placement="bottom">
-                    <FaUserCircle size={24} className="mr-2 text-gray-600" />
+                    <Tooltip title="Your Account" placement="bottom">
+                        <FaUserCircle size={24} className="mr-2 text-gray-600" />
                     </Tooltip>
                     <div>
                         <p className="font-semibold text-black">{user?.displayName || user?.email || 'Guest'}</p>
@@ -71,10 +71,12 @@ const UserMenuItem = ({ user, onSignOut }) => {
     return (
         <Dropdown menu={{ items: userMenuItems }} trigger={['click']} arrow style={{ padding: '0' }}>
             <div className='flex py-1 px-2 rounded-full hover:bg-blue-100 group cursor-pointer group-hover:text-blue-700'>
-                   <Tooltip title="Your Account" placement="bottom" className='flex'>
-                                   <FaUserCircle size={24} className="text-gray-700 cursor-pointer" />
-                <RiArrowDownSFill size={20} />
-                   </Tooltip>
+         <Tooltip title="Your Account" placement="bottom">
+  <span className="flex items-center">
+    <FaUserCircle size={24} className="text-gray-700 cursor-pointer" />
+    <RiArrowDownSFill size={20} />
+  </span>
+</Tooltip>
 
             </div>
         </Dropdown>

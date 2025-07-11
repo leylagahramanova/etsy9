@@ -112,9 +112,7 @@ for (const item of all) {
           </div>
         </div>
 
-        {/* Desktop Layout: Dad + Gift blocks */}
         <div className="hidden sm:flex gap-4 justify-between ">
-          {/* Dad Block */}
           <div className="relative rounded-2xl overflow-hidden cursor-pointer w-full lg:w-[65%] h-[400px] flex items-end justify-center hover:shadow-2xl transition duration-200 ">
             <img
               src={custom}
@@ -140,7 +138,6 @@ for (const item of all) {
             </div>
           </div>
 
-          {/* Gift Block */}
           <div className="md:hidden lg:flex relative rounded-2xl w-full lg:w-[33%] overflow-hidden cursor-pointer h-[400px] hover:shadow-2xl transition duration-200" >
             <img
               src={birth}
@@ -154,7 +151,6 @@ for (const item of all) {
           </div>
         </div>
       </section>
-      {/* Favorites & Cart Section */}
       {favCartItems.length > 0 && (
         <section className="max-w-screen-xl py-4 px-4 sm:px-6 lg:px-8 mx-auto lg:py-8 ">
           <h2 className="text-xl font-semibold mb-4">Recently viewed</h2>
@@ -171,9 +167,7 @@ for (const item of all) {
                     alt={item.name}
                     className="w-[60rem] h-[15rem] object-cover p-1" loading="eager"
                   />
-                  <span
-                    className="absolute top-2 right-2 hidden group-hover:flex fade-slide-up items-center justify-center w-8 h-8 rounded-full bg-white cursor-pointer"
-                  >
+                  <span>
                     <Heart product={item} />
                   </span>
                   <div className="absolute bottom-2 left-2 flex items-center gap-2 mt-auto p-1 bg-white rounded-full shadow-sm border">
@@ -391,7 +385,6 @@ for (const item of all) {
             </span>
           </div>
 
-          {/* Buttons aligned to the right side */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => scroll("left")}
@@ -427,9 +420,7 @@ for (const item of all) {
                     alt={item.name} loading="eager"
                     style={{ aspectRatio: "1 / 0.8" }}
                   />
-                  <span
-                    className="absolute top-2 right-2 hidden group-hover:flex fade-slide-up items-center justify-center w-8 h-8 rounded-full bg-white cursor-pointer"
-                  >
+                  <span>
                     <Heart product={item} />
                   </span>
                   {item.shipsNextDay && (
@@ -478,9 +469,7 @@ for (const item of all) {
         </div>
       </section>
       <section className="max-w-screen-xl py-8 px-4 sm:px-6 lg:px-8 mx-auto lg:py-16">
-        {/* Grid with 3 columns on large screens */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
-          {/* Text Block (acts like first image card) */}
           <div className="bg-white rounded-2xl p-6 flex flex-col justify-center col-span-2 lg:col-span-1 w-full h-[250px]">
             <span className="text-sm text-gray-500">Editors' Picks</span>
             <h2 className="text-2xl font-semibold text-primary mb-2">The Linen Shop</h2>
@@ -490,7 +479,6 @@ for (const item of all) {
             </button>
           </div>
 
-          {/* Products 1–5 */}
           {products.slice(1, 6).map((product, index) => (
             <div
               key={index}
@@ -501,9 +489,7 @@ for (const item of all) {
                 alt={product?.name || "product"}
                 className="object-cover  w-[60rem]  h-[15rem] " loading="eager"
               />
-              <span
-                className="absolute top-2 right-2 hidden group-hover:flex fade-slide-up items-center justify-center w-8 h-8 rounded-full bg-white cursor-pointer"
-              >
+              <span>
                 <Heart product={product} className="w-4 h-4 text-black" />
               </span>
               <p className="absolute bottom-2 right-2 hidden group-hover:flex fade-slide-up text-sm text-black bg-white rounded-2xl px-2 py-1 shadow-md">

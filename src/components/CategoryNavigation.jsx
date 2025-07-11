@@ -144,7 +144,7 @@ const CategoryNavigation = () => {
 
     return (
         <>
-            {/* Categories Dropdown Button (Desktop) */}
+            {/* Desktop */}
             <div className="hidden lg:flex">  <Dropdown
                 popupRender={() => <DesktopCategoryDropdown categories={categories} onCategorySelect={handleCategorySelect} />}
                 trigger={['click']}
@@ -162,7 +162,7 @@ const CategoryNavigation = () => {
             </Dropdown>
 </div>
           
-            {/* Second Row - Mobile Categories Button and Search */}
+            {/*Mobile  */}
             <div className='lg:hidden'>
                      <button
                 className="flex items-center text-gray-700 text-base px-1 py-2 hover:bg-gray-100 rounded-xl"
@@ -178,7 +178,6 @@ const CategoryNavigation = () => {
 
             </div>
        
-            {/* Ant Design Drawer for Mobile Categories */}
             <MobileCategoryDrawer
                 drawerVisible={drawerVisible}
                 setDrawerVisible={setDrawerVisible}
