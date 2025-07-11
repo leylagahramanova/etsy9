@@ -151,10 +151,10 @@ const Navbar = ({ onSignOut }) => {
                     <SearchBar />
                 </div>
                 <div className="hidden lg:flex items-center justify-center max-w-screen-xl mx-auto px-4 py-1 space-x-8 text-base">
-                    <span className="flex items-center cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
+                   <Link to="/gifts" className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
 
                         <GiftOutlined className="w-4 h-4 mr-1" /> Gifts
-                    </span>
+                    </Link>
                     <Link to="/gifts" className="cursor-pointer hover:bg-gray-100 rounded-xl p-1.5">
                         The Personalization Shop
                     </Link>
