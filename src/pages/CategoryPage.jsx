@@ -4,10 +4,11 @@ import axios from 'axios';
 import Heart from '../components/Heart';
 import { Plus } from 'lucide-react';
 import { RiArrowRightSLine } from 'react-icons/ri';
-
+import { useNavigate } from "react-router-dom";
 const CategoryPage = () => {
   const { category, subcategory } = useParams();
   const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
 
 useEffect(() => {
   const decodedCategory = decodeURIComponent(category);

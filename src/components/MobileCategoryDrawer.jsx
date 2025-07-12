@@ -6,12 +6,8 @@ const MobileCategoryDrawer = ({
     drawerVisible,
     setDrawerVisible,
     currentDrawerCategories,
-    setCurrentDrawerCategories,
     drawerHistory,
-    setDrawerHistory,
     drawerTitle,
-    setDrawerTitle,
-    categories,
     handleMainCategoryClick,
     handleCategorySelect,
     handleBackInDrawer

@@ -148,7 +148,7 @@ const CategoryNavigation = () => {
             <div className="hidden lg:flex">  <Dropdown
                 popupRender={() => <DesktopCategoryDropdown categories={categories} onCategorySelect={handleCategorySelect} />}
                 trigger={['click']}
-                overlayStyle={{ zIndex: 1050 }} // Ensure it's above other elements if needed
+                overlayStyle={{ zIndex: 1050 }} 
             > 
                 <Button
                     className="flex items-center text-gray-700 text-base px-3 hover:bg-gray-100 rounded-xl"
